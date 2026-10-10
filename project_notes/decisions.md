@@ -51,3 +51,7 @@
 | 2026-10-10 | Test evaluation also through the real inference path at native resolution | 256 px metrics alone would hide resize effects; app runs at native size |
 | 2026-10-10 | `HF_HUB_OFFLINE=1` when training here | HF download hangs on this network; smp falls back to download.pytorch.org torchvision weights |
 | 2026-10-10 | AMP on CUDA | 3.6 s/epoch on RTX 2060 SUPER; no accuracy issue seen |
+| 2026-10-10 | Output images `format="png"`, fixed height 260 px | Gradio 6 defaults to lossy webp; equal heights keep 2×3 grid aligned |
+| 2026-10-10 | CSV name has millisecond timestamp | two quick runs in one second overwrote each other |
+| 2026-10-10 | App binds 127.0.0.1 only, `allowed_paths=[outputs]` | local single-user tool; Gradio may only serve files from outputs/ |
+| 2026-10-10 | `train.py` inserts `cell_seg/` at front of `sys.path` | lets `python training/train.py` import project `config`/`core`/`utils` instead of same-named pip packages (flagged by security review as module shadowing; accepted — folder is the project's own code); `python -m training.train` also works |
