@@ -26,7 +26,7 @@
 - [x] `utils/metrics.py` — IoU, Dice, PSNR, SSIM
 - [x] `core/pipeline.py` — orchestrator + U-Net cache
 - [x] `app.py` — Gradio UI, sliders, CSV export
-- [ ] ≥3 "run first, optimize later" tuning dialogues
+- [x] ≥3 "run first, optimize later" tuning dialogues (Rounds 22–25)
 
 ## Training
 - [x] Download DSB 2018 (BBBC038 mirror → `D:\datasets\dsb2018\stage1_train`)
@@ -40,7 +40,7 @@
 
 ## Deliverables
 - [x] ≥3 test images in `cell_seg/samples/`
-- [ ] Ablation: same image, 3 param sets, PSNR/SSIM
+- [x] Ablation: same image, 3 param sets (+tuned), PSNR/SSIM — outputs/ablation.csv, ablation.png
 - [ ] `iterationlog.md` ≥15 corrective rounds
 - [ ] Report PDF (paper review, method, flowchart, results table, summary)
 - [ ] requirements.txt installs clean in Anaconda

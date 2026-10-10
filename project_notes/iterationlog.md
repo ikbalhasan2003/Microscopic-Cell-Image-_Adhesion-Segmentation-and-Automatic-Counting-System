@@ -135,3 +135,43 @@ Format: **Round X** — timestamp · My instruction → Agent response → My fe
   - pytest still 58 passed.
 - **Problem found:** (1) My edit to show warnings in the UI put a literal line break inside a Python string (escape lost in the shell heredoc) → syntax error caught by the parse check before running; fixed. (2) Real observations, not code bugs: (a) instance separation is the weak point — the dense sample has good pixel Dice (0.894) but recall 0.26, merged blobs stay one cell at default `min_dist=10` / `kernel=5`; the low-contrast sample over-splits (16 vs 12). (b) Watershed dominates big-image time (~50 %), so slider moves on a 4096 px image still take ~6 s even with the U-Net cache. (c) An image upscaled 20× gave 0 cells — the U-Net learned DSB nucleus sizes, very different magnification breaks it.
 - **Feedback / rationale:** OOM path proven without needing a real OOM; tiles give practically the same mask. 4096 px cap keeps peak GPU memory (5.2 GB) inside the 8 GB card. (a) goes to M15 tuning; (b) acceptable for a course tool — documented as limitation, possible future work: run watershed only inside changed blobs; (c) documented as limitation (scale should be close to training data). Accepted.
+
+### Round 22 — 2026-10-10 · Tuning 1 · small nuclei lost (min_area)
+- **Instruction:** "Run first, optimise later": `01_sparse` gives 8 cells but GT has 11. Find why and fix.
+- **Agent response:** GT nuclei in this image are 44–128 px (seen in M4). Default `min_area = 50` deletes the smallest ones in both MaskRefiner and CellAnalyzer. Tried `min_area` 50 → 20, everything else default.
+- **Problem found:** before 8 / 11 (P 1.00, R 0.73, Dice 0.865) → after 11 / 11 (P 1.00, R 1.00, Dice 0.919). On the 67-image test split, min_area 20 alone: F1 0.823 → 0.833, median count error 10 % → 7.1 %. Images: `outputs/integration/tune_01_sparse_{default,k3+a20}.png`.
+- **Feedback / rationale:** Fixes the exact cause (area filter, not the network). Risk: more tiny false positives — test precision fell slightly (0.870 → 0.859), outweighed by the recall gain. Kept; final decision with Round 25's val grid search.
+
+### Round 23 — 2026-10-10 · Tuning 2 · touching cells merged (kernel)
+- **Instruction:** `02_dense_touching`: 36 cells vs 87 GT; one big cluster is counted as one cell (no. 12 in the overlay). Fix the merging.
+- **Agent response:** Morphological **closing** with a 5 px ellipse fills the thin background gaps between touching nuclei, so watershed gets one fat blob with one distance peak. Tried kernel 5 → 3.
+- **Problem found:** before 36 / 87 (P 0.64, R 0.26) → kernel 3: 50 / 87 (P 0.76, R 0.44, Dice 0.894 → 0.904); kernel 3 + min_area 20: 52 / 87 (P 0.73, R 0.44). Test split, kernel 3 alone: F1 0.823 → 0.839. The cluster now splits into ~8 cells (ablation.png, set D).
+- **Feedback / rationale:** Smaller closing keeps the gaps watershed needs. Still far from 87: many nuclei touch with almost no gap and the U-Net marks them as one region — a limit of semantic segmentation + distance transform (an instance/boundary-aware model would be needed). Kept kernel 3.
+
+### Round 24 — 2026-10-10 · Tuning 3 · min_dist hypothesis rejected
+- **Instruction:** In M5 the GT mask of the dense sample counted best with `min_dist = 5` instead of 10. Should the default become 5?
+- **Agent response:** Tested with kernel 3 + min_area 20: dense sample 52 → 60 / 87 (R 0.44 → 0.47) **but** `03_low_contrast` 20 → 25 / 12 (P 0.45 → 0.24); test split F1 0.852 → 0.815, precision 0.868 → 0.793, mean count error 12.2 % → 18.8 %. Val grid search also ranks min_dist 10 top.
+- **Problem found:** min_dist 5 over-splits elongated / irregular nuclei (H&E tissue); it only helps the one dense image.
+- **Feedback / rationale:** Rejected — choosing from one image would overfit; the 67-image split decides. min_dist stays 10; users with very dense small nuclei can lower it with the slider. Good report example of validating on a split, not one picture.
+
+### Round 25 — 2026-10-10 · Tuning 4 · systematic search (tuning.py) → new defaults
+- **Instruction:** Check rounds 22–24 systematically, without using the test split for the choice.
+- **Agent response:** New `tuning.py`: U-Net once per image, grid τ {0.4, 0.5, 0.6} × kernel {3, 5} × r {0.2, 0.3, 0.4, 0.5} × min_dist {3, 5, 7, 10} × min_area {10, 20, 50} = 288 settings on the **val** split (67 images), score = per-cell F1 (IoU ≥ 0.5); best compared with defaults on the **test** split. Outputs `outputs/tuning_val.csv`, `outputs/tuning_test.json`; 578 s.
+- **Result:** val top = τ 0.5, kernel 3, r 0.2, min_dist 10, min_area 20 (F1 0.826); r 0.2–0.5 differ by ≤ 0.0015 F1. Chosen **kernel 3, min_area 20**, r kept 0.4 (difference is noise; fewer changes from the approved mockup). Test split old → new defaults: precision 0.870 → 0.868, recall 0.780 → **0.835**, F1 0.823 → **0.852**, median count error 10.0 % → **6.9 %**, mean 15.9 % → 12.2 %, Dice 0.907 → 0.915.
+- **Problem found:** (1) Trade-off: `03_low_contrast` (H&E) over-splits more, 16 → 20 vs 12 GT. (2) Val mean count error ~140 % comes from a few images with very few GT cells (percentage explodes) — median is the meaningful number. (3) First `tuning.py` draft used an inline `__import__("pathlib")`; cleaned to a normal import before running.
+- **Feedback / rationale:** Changed `config.Params` defaults (kernel 5 → 3, min_area 50 → 20), so UI sliders start there too; config.py comments say why. Chosen on val, confirmed on unseen test — no test-set tuning. H&E trade-off documented as a limitation. Accepted.
+
+### Round 26 — 2026-10-10 · M15 ablation
+- **Instruction:** M15 `ablation.py`: same image, 3 parameter sets, PSNR / SSIM (+ count), table + figure.
+- **Agent response:** Image `02_dense_touching` (has GT). Sets A lenient (τ 0.3, k 3, r 0.3), B mockup defaults (τ 0.5, k 5, r 0.4), C strict (τ 0.7, k 7, r 0.6) — all min_dist 10, min_area 50 — plus D = new tuned defaults. Each predicted mask compared with the **GT mask** (real ground truth, not set B): IoU, Dice, PSNR, SSIM, per-cell P/R, count, mean area, runtime (U-Net cached → post-processing time). Saved `outputs/ablation.csv`, `outputs/ablation.png` (GT + 4 overlays).
+- **Result:**
+
+  | set | count / GT 87 | IoU | Dice | PSNR dB | SSIM | P | R | time s |
+  |---|---|---|---|---|---|---|---|---|
+  | A lenient | 50 | 0.840 | 0.913 | 11.16 | 0.725 | 0.68 | 0.39 | 0.031 |
+  | B mockup | 36 | 0.808 | 0.894 | 10.34 | 0.699 | 0.64 | 0.26 | 0.025 |
+  | C strict | 33 | 0.774 | 0.873 | 9.70 | 0.665 | 0.67 | 0.25 | 0.030 |
+  | D tuned | 52 | 0.824 | 0.903 | 10.84 | 0.711 | 0.73 | 0.44 | 0.030 |
+
+- **Problem found:** The prompt expected A "under-segmented / merged" and C "over-segmented". Measured the opposite direction: A counts **more** cells than B, C fewer — low τ + small kernel keep gaps open, high τ + big kernel merge and shrink. Renamed sets lenient / mockup / strict to describe what was observed. This image is in the training split, so absolute numbers are optimistic; Round 25 test-split numbers are the fair ones.
+- **Feedback / rationale:** PSNR/SSIM order matches Dice (A > D > B > C) — stricter settings lose mask area. D has the best per-cell precision and recall although A has slightly higher pixel overlap; for counting, per-cell scores matter more. Accepted.

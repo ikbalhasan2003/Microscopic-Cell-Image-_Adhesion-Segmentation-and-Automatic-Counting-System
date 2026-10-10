@@ -62,3 +62,7 @@
 | 2026-10-10 | OOM chain: full → 512 px tiles (64 overlap, averaged) → CPU | tiles match full inference (99.98 % mask agreement) |
 | 2026-10-10 | Wrong-architecture weights → ValueError with plain message | raw state_dict error is unreadable in the UI |
 | 2026-10-10 | Images > 4096 px downscaled (INTER_AREA); `PipelineResult.warnings` added | 4096 px peaks at 5.2 GB GPU; user told scale factor and area correction |
+| 2026-10-10 | Defaults changed: kernel 5 → 3, min_area 50 → 20 | val grid search (288 settings); test F1 0.823 → 0.852, median count error 10 % → 6.9 %; peak_ratio kept 0.4 (0.2 only +0.001 F1) |
+| 2026-10-10 | min_dist stays 10 | 5 helps only the dense sample; test F1 drops to 0.815, H&E nuclei over-split |
+| 2026-10-10 | Ablation vs GT mask; sets pinned explicitly (A–C at mockup min_dist/min_area, D = current defaults) | real reference instead of "set B as reference"; reproducible if defaults change |
+| 2026-10-10 | Parameters chosen on val split, reported on test split | no tuning on test set or on single samples (2 of 3 samples are in train split) |

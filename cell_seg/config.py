@@ -17,10 +17,10 @@ class Params:
     clip: float = 2.0          # CLAHE clip limit
     blur_k: int = 3            # Gaussian blur kernel
     thresh: float = 0.5        # probability threshold tau
-    kernel: int = 5            # morphology kernel size
+    kernel: int = 3            # morphology kernel size (tuned on val split; mockup had 5)
     peak_ratio: float = 0.4    # distance-map peak ratio r
     min_dist: int = 10         # min peak distance (px)
-    min_area: int = 50         # min cell area (px^2)
+    min_area: int = 20         # min cell area px^2 (tuned on val split; mockup had 50)
 
 
 @dataclass
