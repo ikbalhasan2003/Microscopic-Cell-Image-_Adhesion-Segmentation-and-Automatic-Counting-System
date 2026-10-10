@@ -22,3 +22,4 @@
 - **2026-10-10** — M6 done: `core/analysis.py` (renumber reading order, regionprops → CellInfo, summary, DataFrame, histogram Figure). Checks pass; `outputs/hist_check.png`. Build order changed: M8 → M11 → M12 next so full training runs on the GPU while M7, M9, M10 are written.
 - **2026-10-10** — M8 done: `utils/metrics.py` (IoU, Dice, PSNR, SSIM, count error, greedy per-cell P/R). All checks pass. Next: M11 dataset + loss.
 - **2026-10-10** — M11 done: `training/dataset.py` (seed-42 80/10/10 split, shared preprocessing, RAM cache, augmentations) + `training/losses.py` (BCE + Dice). Checks pass; `outputs/dataset_check.png`. Samples 02/03 fall in train split (optimistic), 01 in test. Next: M12 training loop.
+- **2026-10-10** — M7 done: `utils/visualize.py` (fixed-scale viridis heatmap, mask view, bone distance map + red seeds, green contours + outlined ids). Checks pass; `outputs/vis_check_*.png`.

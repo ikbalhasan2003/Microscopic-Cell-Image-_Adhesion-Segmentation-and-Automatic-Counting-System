@@ -43,3 +43,5 @@
 | 2026-10-10 | ElasticTransform alpha 50, sigma 7 | albumentations 2.x defaults (alpha 1, sigma 50) are a no-op |
 | 2026-10-10 | Keep seed-42 split even though samples 02/03 land in train | moving them would bias the test split; report states it |
 | 2026-10-10 | Target = nuclei (DSB labels nuclei only) | ground truth defines what is counted; stated in report |
+| 2026-10-10 | Contours via `find_boundaries(mode="inner")` on renumbered labels (not per-cell `findContours`) | one vectorised pass; touching cells get a boundary between them |
+| 2026-10-10 | Overlay font scale clip(min(H,W)/700, 0.3, 1.2), line thickness grows > 1000 px | readable on 256 px samples and large microscope images |

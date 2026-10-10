@@ -22,7 +22,7 @@
 - [x] `core/postprocess.py` — threshold + morphology
 - [x] `core/watershed.py` — distance transform + watershed
 - [x] `core/analysis.py` — numbering, area, histogram
-- [ ] `utils/visualize.py` — heatmap, contour overlay
+- [x] `utils/visualize.py` — heatmap, contour overlay
 - [x] `utils/metrics.py` — IoU, Dice, PSNR, SSIM
 - [ ] `core/pipeline.py` — orchestrator + U-Net cache
 - [ ] `app.py` — Gradio UI, sliders, CSV export
