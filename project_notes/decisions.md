@@ -55,3 +55,5 @@
 | 2026-10-10 | CSV name has millisecond timestamp | two quick runs in one second overwrote each other |
 | 2026-10-10 | App binds 127.0.0.1 only, `allowed_paths=[outputs]` | local single-user tool; Gradio may only serve files from outputs/ |
 | 2026-10-10 | `train.py` inserts `cell_seg/` at front of `sys.path` | lets `python training/train.py` import project `config`/`core`/`utils` instead of same-named pip packages (flagged by security review as module shadowing; accepted — folder is the project's own code); `python -m training.train` also works |
+| 2026-10-10 | `train.py` raises if no checkpoint saved this run | NaN val Dice would otherwise evaluate an old `unet_cells.pth` and report wrong test metrics |
+| 2026-10-10 | Tests use a fake U-Net via monkeypatch + synthetic 5-disc scene | fast (< 5 s), no weights/dataset, exact known count |

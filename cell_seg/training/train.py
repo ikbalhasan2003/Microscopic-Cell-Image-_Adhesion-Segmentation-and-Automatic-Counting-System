@@ -200,6 +200,8 @@ def train() -> None:
             _logger.info("Early stop: no val Dice gain for %d epochs", args.patience)
             break
 
+    if best_epoch == 0:  # e.g. NaN val Dice: never evaluate a stale checkpoint from an older run
+        raise RuntimeError(f"No checkpoint saved in this run (val Dice never valid); {out} not updated.")
     _logger.info("Best val Dice %.4f at epoch %d -> %s", best_dice, best_epoch, out)
     results = {"best_epoch": best_epoch, "best_val_dice": best_dice,
                **_evaluate_test(out, test_ds, n_eval, device, loss_fn, args.batch)}

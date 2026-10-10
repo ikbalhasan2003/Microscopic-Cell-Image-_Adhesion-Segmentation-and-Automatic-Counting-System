@@ -27,3 +27,5 @@
 - **2026-10-10** — M9 done: `core/pipeline.py` (lazy U-Net, last-entry prob cache, per-stage timing, field-named param validation). Cache hit 0.03 s vs 0.42 s first run.
 - **2026-10-10** — M12 done: `training/train.py`. Full GPU training 28 epochs (early stop), best val Dice 0.902; test Dice 0.914 (256 px) / 0.907 (native, full pipeline), count error median 10 %, cell P/R 0.87/0.78. Weights at `cell_seg/weights/unet_cells.pth` (not in git).
 - **2026-10-10** — M10 done: `app.py` Gradio UI (mockup layout, sliders, Reset, examples, stats, CSV, error/empty hints). Tested in browser (Playwright) + gradio_client incl. missing-weights instance. Screenshot `outputs/ui_check.png`.
+- **2026-10-10** — Security-review fix in `train.py`: refuse to evaluate a stale checkpoint when no epoch saved one.
+- **2026-10-10** — M13 done: `tests/` — 58 pytest tests, all green in 4.4 s (CPU, fake U-Net, synthetic discs).

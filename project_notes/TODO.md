@@ -36,7 +36,7 @@
 ## Phase 3 — Integration
 - [ ] End-to-end run on samples
 - [ ] OOM → tile + retry; empty-result hint
-- [ ] `tests/` unit tests
+- [x] `tests/` unit tests (58 passed, 4.4 s)
 
 ## Deliverables
 - [x] ≥3 test images in `cell_seg/samples/`
