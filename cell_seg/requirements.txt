@@ -2,7 +2,7 @@
 torch>=1.10
 torchvision>=0.11
 segmentation-models-pytorch>=0.3
-opencv-python>=4.5
+opencv-python-headless>=4.5
 scikit-image>=0.19
 numpy>=1.21
 scipy>=1.7

@@ -10,3 +10,9 @@
 | 2026-10-10 | `PipelineResult` gets optional `prob`, `mask`, `labels` raw arrays | metrics + ablation need raw data; `images` holds only RGB views |
 | 2026-10-10 | ImageNet `MEAN`/`STD` live in `core/unet_model.py`, imported by `training/dataset.py` | single source, identical train/inference normalisation |
 | 2026-10-10 | No database; plain files (weights, CSV, logs, JSON) | single local user, stateless runs |
+| 2026-10-10 | Python 3.11 conda env at `D:\envs\cellseg`; pkgs/pip cache/dataset on D: | system Python 3.14 too new for ML stack; C: only 7 GB free |
+| 2026-10-10 | torch from cu124 wheel index | use RTX 2060 SUPER GPU; default pip wheel may be CPU-only |
+| 2026-10-10 | `opencv-python-headless` only (not `opencv-python`) | albumentations needs headless; two builds clash in same `cv2` folder; no GUI windows needed |
+| 2026-10-10 | `requirements-lock.txt` with exact versions | reproducible install; installed majors (gradio 6, pandas 3, numpy 2, cv2 5) newer than prompt assumptions |
+| 2026-10-10 | Dataset from BBBC038 mirror instead of Kaggle API | same DSB 2018 data, public, no Kaggle token needed |
+| 2026-10-10 | Samples: sparse / dense-touching / low-contrast from stage1_train, GT in `samples/gt/` | covers the 3 required cases; GT enables IoU/Dice in ablation |

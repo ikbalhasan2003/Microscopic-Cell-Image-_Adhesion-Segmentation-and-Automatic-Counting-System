@@ -18,3 +18,9 @@ Format: **Round X** — timestamp · My instruction → Agent response → My fe
 - **Instruction:** Complete Phase 1.
 - **Agent response:** Added typed stubs for helpers introduced in module prompts (device_label, stage_timer, renumber/summary/to_dataframe, mask_view/distance_map_view, count_error/cell_precision_recall, pipeline `__init__`, train `parse_args`, `ablation.py`); added raw-array fields to `PipelineResult`; MEAN/STD constants in `unet_model.py`. Wrote `phase1_interface.md` for instructor review. All files parse.
 - **Feedback / rationale:** _(fill in)_
+
+### Round 4 — 2026-10-10 · Pre-Phase 2 setup
+- **Instruction:** Check what preparation is needed before module work; then do all setup steps 1–8. Commit and push everything to my GitHub repo.
+- **Agent response:** Found blockers: no packages, Python 3.14 too new, C: 97% full, no conda, no samples/dataset. Installed Miniconda + Python 3.11 env on D:, CUDA torch, requirements (+lock file), VS Code interpreter, DSB 2018 data, 3 samples with GT. Initialised git, pushed to GitHub.
+- **Problem found:** `opencv-python` and `opencv-python-headless` both installed (same `cv2` folder) → kept headless only, updated requirements.txt.
+- **Feedback / rationale:** _(fill in)_
