@@ -3,7 +3,7 @@
 | Phase | Scope | Status |
 |---|---|---|
 | 1 — Architecture | dir structure + typed class signatures | ✅ complete; interface approved by teacher (2026-10-10) |
-| 2 — Core coding | modules one by one, ≥3 tuning dialogues | 🟨 in progress (M1–M5 done; next: M6) |
+| 2 — Core coding | modules one by one, ≥3 tuning dialogues | 🟨 in progress (M1–M6 done; next: M8, M11, M12 so training runs early) |
 | 3 — Integration & debug | tracebacks → targeted fixes | ⬜ not started |
 | Report | PDF + iterationlog.md + ablation | ⬜ not started |
 
@@ -19,3 +19,4 @@
 - **2026-10-10** — M3 done: `core/unet_model.py` (weights load raw/checkpoint, pad-to-32 inference, `build_unet` shared builder). Checks pass on CPU + CUDA with random weights. Next: M4 mask refinement.
 - **2026-10-10** — M4 done: `core/postprocess.py` (threshold, elliptical open/close, hole fill, small-blob removal, input validation). Synthetic checks pass; `outputs/postprocess_check.png` saved. Found tiny nuclei in `01_sparse` lost at default min_area=50 → tuning item for M15. Next: M5 watershed.
 - **2026-10-10** — M5 done: `core/watershed.py` (distance transform, per-blob peak threshold, ≥1 seed per blob, watershed). Checks pass; `outputs/watershed_check.png` saved. Tuning item for M15: min_dist 5 matches dense GT (88 vs 87) better than default 10 (65). Next: M6 cell analysis.
+- **2026-10-10** — M6 done: `core/analysis.py` (renumber reading order, regionprops → CellInfo, summary, DataFrame, histogram Figure). Checks pass; `outputs/hist_check.png`. Build order changed: M8 → M11 → M12 next so full training runs on the GPU while M7, M9, M10 are written.

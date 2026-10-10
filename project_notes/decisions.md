@@ -32,3 +32,7 @@
 | 2026-10-10 | Seed pixels labelled with 8-connectivity before watershed | flat distance ridges give adjacent equal peaks; merge them so one cell = one marker |
 | 2026-10-10 | `watershed(..., connectivity=2)` | matches 8-connected blobs from MaskRefiner; no unlabelled pixels inside mask |
 | 2026-10-10 | Keep default min_dist=10 for now; min_dist=5 fits dense sample better | defaults from mockup; revisit in M15 tuning with trained weights |
+| 2026-10-10 | Reading order: sort by (centroid row // median cell bbox height, centroid col) | cells on one visual line read left→right even if centroids differ by a few px |
+| 2026-10-10 | Histogram y-axis integer ticks | counts are integers |
+| 2026-10-10 | bbox in CSV uses skimage convention (max row/col exclusive) | direct from regionprops; documented for report |
+| 2026-10-10 | Build order M6 → M8 → M11 → M12 (train) → M7 → M9 → M10 → M13 → M14 → M15 | training is the longest step; GPU trains while UI modules are coded |
