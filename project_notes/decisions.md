@@ -23,3 +23,7 @@
 | 2026-10-10 | Public helper `build_unet(encoder_weights)` in `core/unet_model.py` | train (ImageNet init) and inference (no init, load weights) must build the same architecture; one definition |
 | 2026-10-10 | `torch.load(..., weights_only=True)` | safe loading (no pickle code execution); checkpoint holds only tensors + int/float |
 | 2026-10-10 | Reflect-pad to multiple of 32 with `np.pad`, crop after | encoder downsamples 5×; reflect avoids dark border artefacts; np.pad works for any pad size |
+| 2026-10-10 | Small-object removal via `ndimage.label` + `np.bincount`, not `skimage.morphology.remove_small_objects` | skimage 0.26 deprecated `min_size` (→ `max_size`, "≤" instead of "<"); own code behaves the same on skimage 0.19–0.26, keeps "area < min_area removed" |
+| 2026-10-10 | 8-connectivity for mask components | diagonal-touching pixels belong to one blob; matches OpenCV default |
+| 2026-10-10 | Prob map tolerance 1e-4 outside [0,1]; NaN/inf rejected | sigmoid/float rounding can slightly overshoot; NaN would silently become background |
+| 2026-10-10 | Keep default min_area=50 / kernel=5 for now despite `01_sparse` losing small nuclei | defaults are from approved mockup; revisit as tuning dialogue in M15 with trained weights |
