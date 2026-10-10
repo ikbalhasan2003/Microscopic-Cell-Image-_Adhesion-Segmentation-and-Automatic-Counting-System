@@ -47,9 +47,9 @@ class CellAnalyzer:
             ax.set_axis_off()
             return fig
         areas = np.array([c.area for c in cells])
-        ax.hist(areas, bins="auto", color="#2563EB", edgecolor="white")
+        ax.hist(areas, bins="auto", color="#1D45D8", edgecolor="white")
         mean, median = float(areas.mean()), float(np.median(areas))
-        ax.axvline(mean, color="#0D9488", linestyle="--", label=f"mean = {mean:.0f}")
+        ax.axvline(mean, color="#0F766E", linestyle="--", label=f"mean = {mean:.0f}")
         ax.axvline(median, color="#64748B", linestyle=":", label=f"median = {median:.0f}")
         ax.set_xlabel("Cell area (px²)")
         ax.set_ylabel("Count")

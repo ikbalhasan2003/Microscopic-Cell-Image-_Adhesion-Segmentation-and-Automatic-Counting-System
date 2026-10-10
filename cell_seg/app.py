@@ -70,161 +70,139 @@ _logger = get_logger("app")
 
 THEME = gr.themes.Base(
     primary_hue=gr.themes.Color(
-        c50="#EFF6FF", c100="#DBEAFE", c200="#BFDBFE", c300="#93C5FD", c400="#60A5FA",
-        c500="#3B82F6", c600="#2563EB", c700="#1D4ED8", c800="#1E40AF", c900="#1E3A8A",
-        c950="#172554"),
+        c50="#EFF4FF", c100="#DBE6FE", c200="#BFD3FE", c300="#93B4FD", c400="#6090FA",
+        c500="#3B6FF6", c600="#2557EB", c700="#1D45D8", c800="#1E3AAF", c900="#1E348A",
+        c950="#172254"),
     secondary_hue="teal",
     neutral_hue="slate",
     radius_size=gr.themes.sizes.radius_md,
     spacing_size=gr.themes.sizes.spacing_md,
-    font=[gr.themes.GoogleFont("Fira Sans"), "system-ui", "sans-serif"],
-    font_mono=[gr.themes.GoogleFont("Fira Code"), "ui-monospace", "monospace"],
+    font=[gr.themes.GoogleFont("IBM Plex Sans"), "system-ui", "sans-serif"],
+    font_mono=[gr.themes.GoogleFont("IBM Plex Mono"), "ui-monospace", "monospace"],
 ).set(
-    body_background_fill="#F4F7FB",
-    body_background_fill_dark="#0B1220",
+    body_background_fill="#F6F8FB",
+    body_background_fill_dark="#0E1420",
     block_background_fill="#FFFFFF",
-    block_background_fill_dark="#111A2E",
-    block_border_color="#E2E8F0",
-    block_border_color_dark="#1F2A44",
+    block_background_fill_dark="#151C2B",
+    block_border_color="#E3E8EF",
+    block_border_color_dark="#263042",
     block_border_width="1px",
-    block_shadow="0 1px 2px rgba(15, 23, 42, 0.04)",
+    block_shadow="none",
     block_label_text_weight="500",
-    button_primary_background_fill="linear-gradient(135deg, *primary_600, #0D9488)",
-    button_primary_background_fill_hover="linear-gradient(135deg, *primary_700, #0F766E)",
-    button_primary_background_fill_dark="linear-gradient(135deg, *primary_600, #0D9488)",
-    button_primary_background_fill_hover_dark="linear-gradient(135deg, *primary_500, #14B8A6)",
+    button_primary_background_fill="*primary_700",
+    button_primary_background_fill_hover="*primary_800",
+    button_primary_background_fill_dark="*primary_600",
+    button_primary_background_fill_hover_dark="*primary_700",
     button_primary_text_color="#FFFFFF",
-    slider_color="*primary_600",
+    button_primary_text_color_dark="#FFFFFF",
+    button_secondary_background_fill="#FFFFFF",
+    button_secondary_background_fill_hover="#F1F4F9",
+    button_secondary_border_color="#D5DCE6",
+    button_secondary_border_color_dark="#33405A",
+    button_border_width="1px",
+    slider_color="*primary_700",
+    slider_color_dark="*primary_500",
 )
 
 CSS = """
-:root { --blue: #1D4ED8; --teal: #0D9488; --ink: #0F172A; --muted: #475569; --line: #E2E8F0;
-  --card: #FFFFFF; --soft: #F8FAFC; --warn: #B45309; --err: #DC2626; }
-.dark { --blue: #60A5FA; --teal: #2DD4BF; --ink: #E2E8F0; --muted: #94A3B8; --line: #1F2A44;
-  --card: #111A2E; --soft: #0F172A; --warn: #F59E0B; --err: #F87171; }
+:root { --blue: #1D45D8; --teal: #0F766E; --ink: #0F172A; --muted: #5B6779; --line: #E3E8EF;
+  --card: #FFFFFF; --warn: #B45309; --err: #C62828; }
+.dark { --blue: #7FA6FF; --teal: #2DD4BF; --ink: #E6EAF2; --muted: #93A0B4; --line: #263042;
+  --card: #151C2B; --warn: #F2A93B; --err: #F47174; }
 .gradio-container { max-width: none !important; width: 100% !important;
-  padding: 0 24px !important; }
+  padding: 0 28px 24px !important; }
 footer { display: none !important; }
-.num { font-family: 'Fira Code', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
-/* Header */
-#topbar { margin: 12px 0 8px; padding: 18px 22px; border-radius: 14px; align-items: center;
-  gap: 16px; background: linear-gradient(120deg, #1E3A8A 0%, #1D4ED8 45%, #0D9488 100%);
-  box-shadow: 0 6px 24px -12px rgba(29, 78, 216, 0.55); }
-.dark #topbar { background: linear-gradient(120deg, #0F1E4D 0%, #1E3A8A 50%, #115E59 100%); }
+/* Top bar: quiet, one line */
+#topbar { align-items: center; gap: 12px; padding: 14px 0; margin-bottom: 12px;
+  border-bottom: 1px solid var(--line); }
 #topbar > div { background: transparent !important; border: 0 !important; padding: 0 !important; }
 #app-header { display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  flex-wrap: wrap; color: #fff; }
-#theme-btn { flex: none !important; width: 44px; min-width: 44px !important; height: 44px; padding: 0 !important; border-radius: 12px !important;
-  font-size: 0 !important; background: rgba(255, 255, 255, 0.14) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important; box-shadow: none !important;
+  flex-wrap: wrap; }
+#app-header .brand { display: flex; align-items: center; gap: 12px; }
+#app-header .logo { width: 32px; height: 32px; flex: none; }
+#app-header h1 { margin: 0; font-size: 1.12rem; font-weight: 600; color: var(--ink); }
+#app-header p { margin: 1px 0 0; font-size: 0.86rem; color: var(--muted); }
+.device { display: inline-flex; align-items: center; gap: 8px; font-size: 0.84rem;
+  color: var(--muted); white-space: nowrap; }
+.device::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+#theme-btn { flex: none !important; width: 36px; min-width: 36px !important; height: 36px;
+  padding: 0 !important; font-size: 0 !important; box-shadow: none !important;
   display: flex !important; align-items: center; justify-content: center; line-height: 0; }
-#theme-btn:hover { background: rgba(255, 255, 255, 0.24) !important; }
-#theme-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-#theme-btn::before { content: ""; width: 20px; height: 20px; background: #fff;
+#theme-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+#theme-btn::before { content: ""; width: 18px; height: 18px; background: var(--muted);
   -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat;
   --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E"); }
 .dark #theme-btn::before {
   --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'/%3E%3C/svg%3E"); }
-#app-header .brand { display: flex; align-items: center; gap: 14px; }
-#app-header .logo { width: 44px; height: 44px; flex: none; }
-#app-header h1 { margin: 0; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em;
-  color: #fff; }
-#app-header p { margin: 2px 0 0; font-size: 0.93rem; color: rgba(255, 255, 255, 0.85);
-  max-width: 72ch; }
-#app-header .chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px;
-  border-radius: 999px; font-size: 0.83rem; background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; white-space: nowrap; }
-.chip.live::before { content: ""; width: 8px; height: 8px; border-radius: 50%;
-  background: #5EEAD4; box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.3); }
 
-/* Panels */
+/* Side panels: one flat surface each, no cards inside cards */
 .panel { background: var(--card) !important; border: 1px solid var(--line) !important;
-  border-radius: 14px !important; padding: 14px !important; gap: 10px !important; }
-.panel-title { display: flex; align-items: center; gap: 10px; margin: 0 0 2px;
-  font-weight: 600; font-size: 0.98rem; color: var(--ink); }
-.panel-title .n { display: inline-grid; place-items: center; width: 24px; height: 24px;
-  border-radius: 8px; background: linear-gradient(135deg, var(--blue), var(--teal));
-  color: #fff; font-size: 0.78rem; }
-.panel-title svg { width: 18px; height: 18px; color: var(--blue); }
-.hint { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.45; }
-.group-label { margin: 8px 0 0; padding-top: 10px; border-top: 1px dashed var(--line);
-  font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--teal); }
-.group-label.first { border-top: 0; padding-top: 0; margin-top: 2px; }
-#run-btn, #run-btn-2 { font-size: 1rem; font-weight: 600; min-height: 44px; }
-button { cursor: pointer; transition: filter 150ms ease, transform 150ms ease; }
-button:active { transform: translateY(1px); }
+  border-radius: 10px !important; padding: 16px !important; gap: 12px !important; }
+.panel .block:not(#inp), .panel .form { border: 0 !important; box-shadow: none !important;
+  background: transparent !important; }
+.panel .block:not(#inp) { padding-left: 0 !important; padding-right: 0 !important; }
+.panel .html-container, .html-container:has(#summary) { padding: 0 !important; }
+.section-title { margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--ink); }
+.group-title { margin: 6px 0 -4px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: 0.86rem; font-weight: 600; color: var(--ink); }
+.hint { margin: -8px 0 0; color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+.divider { border-top: 1px solid var(--line); margin: 2px 0; }
+#run-btn { min-height: 42px; font-weight: 600; }
 
-/* KPI strip */
-#summary { display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 10px; }
-#summary .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-  padding: 12px 16px; position: relative; overflow: hidden; }
-#summary .kpi::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-  background: var(--teal); }
-#summary .kpi.main { background: linear-gradient(135deg, #EFF6FF, #F0FDFA); }
-.dark #summary .kpi.main { background: linear-gradient(135deg, #172554, #042F2E); }
-#summary .kpi.main::after { background: var(--blue); }
+/* Summary: one strip, the count is the only emphasis */
+#summary { display: grid; grid-template-columns: 1.2fr repeat(4, 1fr); background: var(--card);
+  border: 1px solid var(--line); border-radius: 10px; }
+#summary .kpi { padding: 14px 18px; border-left: 1px solid var(--line); }
+#summary .kpi:first-child { border-left: 0; }
 #summary .k { font-size: 0.8rem; color: var(--muted); }
-#summary .v { font-size: 1.45rem; font-weight: 600; color: var(--ink); margin-top: 2px;
-  font-family: 'Fira Code', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
-#summary .main .v { font-size: 2.4rem; line-height: 1.05; color: var(--blue); }
-#summary .v small { font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-left: 4px;
-  font-family: 'Fira Sans', sans-serif; }
-#summary.empty .v { color: var(--muted); }
+#summary .v { margin-top: 4px; font-size: 1.3rem; font-weight: 500; color: var(--ink);
+  font-variant-numeric: tabular-nums; }
+#summary .main .v { font-size: 2.1rem; line-height: 1.05; font-weight: 600; color: var(--blue); }
+#summary .v small { margin-left: 3px; font-size: 0.76rem; font-weight: 400; color: var(--muted); }
+#summary.empty .v { color: var(--muted); font-weight: 400; }
 
-/* Status */
-.status { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px;
-  border-radius: 10px; border: 1px solid color-mix(in srgb, var(--blue) 25%, transparent);
-  background: color-mix(in srgb, var(--blue) 6%, transparent); color: var(--ink);
-  font-size: 0.9rem; }
-.status svg { width: 18px; height: 18px; flex: none; margin-top: 1px; color: var(--blue); }
-.status.ok { border-color: color-mix(in srgb, var(--teal) 35%, transparent);
-  background: color-mix(in srgb, var(--teal) 8%, transparent); }
+/* Status: plain line; colour only for problems */
+.status { display: flex; gap: 8px; align-items: flex-start; padding: 2px;
+  color: var(--muted); font-size: 0.88rem; }
+.status svg { width: 16px; height: 16px; flex: none; margin-top: 2px; }
 .status.ok svg { color: var(--teal); }
-.status.warn { border-color: color-mix(in srgb, var(--warn) 35%, transparent);
-  background: color-mix(in srgb, var(--warn) 8%, transparent); }
+.status.warn, .status.error { padding: 9px 12px; border-radius: 8px; color: var(--ink); }
+.status.warn { background: color-mix(in srgb, var(--warn) 9%, transparent); }
 .status.warn svg { color: var(--warn); }
-.status.error { border-color: color-mix(in srgb, var(--err) 35%, transparent);
-  background: color-mix(in srgb, var(--err) 8%, transparent); }
+.status.error { background: color-mix(in srgb, var(--err) 9%, transparent); }
 .status.error svg { color: var(--err); }
 .status ul { margin: 4px 0 0; padding-left: 18px; color: var(--muted); }
 
-/* Pipeline guide */
-.guide { list-style: none; margin: 0; padding: 0; counter-reset: s; }
-.guide li { position: relative; padding: 0 0 12px 34px; counter-increment: s; }
-.guide li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 22px;
-  height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 0.74rem;
-  font-weight: 600; color: var(--blue); border: 1.5px solid var(--blue); background: var(--card); }
-.guide li:not(:last-child)::after { content: ""; position: absolute; left: 10.5px; top: 24px;
-  bottom: 2px; width: 1.5px; background: var(--line); }
-.guide b { display: block; font-size: 0.88rem; color: var(--ink); font-weight: 600; }
-.guide span { display: block; font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
-.guide code { font-family: 'Fira Code', monospace; font-size: 0.74rem; padding: 1px 6px;
-  border-radius: 6px; background: color-mix(in srgb, var(--teal) 12%, transparent);
-  color: var(--teal); margin-right: 4px; }
+/* How it works */
+.guide { max-width: 72ch; margin: 8px 0 0; padding: 0 0 0 1.4em; color: var(--ink); }
+.guide li { margin-bottom: 14px; padding-left: 4px; }
+.guide li::marker { color: var(--blue); font-weight: 600; }
+.guide b { display: block; font-weight: 600; }
+.guide p { display: block; margin: 2px 0 0 !important; color: var(--muted) !important; font-size: 0.9rem; line-height: 1.5; }
+.guide em { font-style: normal; color: var(--ink); }
+.caption { margin: 0; font-size: 0.86rem; color: var(--muted); }
 /* Matplotlib renders a light PNG; invert it in dark mode (hue-rotate keeps the blue bars blue). */
 .dark #hist img { filter: invert(0.9) hue-rotate(180deg); }
-.caption { margin: 2px 2px 0; font-size: 0.82rem; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 @media (max-width: 1100px) {
   #summary { grid-template-columns: repeat(3, 1fr); }
-  #summary .kpi.main { grid-column: 1 / -1; }
+  #summary .kpi:first-child { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+  #summary .kpi:nth-child(2) { border-left: 0; }
 }
 @media (max-width: 720px) {
-  .gradio-container { padding: 0 12px !important; }
+  .gradio-container { padding: 0 12px 16px !important; }
   #summary { grid-template-columns: 1fr 1fr; }
+  #summary .kpi:nth-child(odd):not(:first-child) { border-left: 0; }
 }
 """
 
 LOGO_SVG = (
-    '<svg class="logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">'
-    '<rect width="48" height="48" rx="12" fill="rgba(255,255,255,0.14)"/>'
-    '<ellipse cx="19" cy="21" rx="9" ry="8" stroke="#fff" stroke-width="2"/>'
-    '<ellipse cx="31" cy="28" rx="8" ry="7" stroke="#5EEAD4" stroke-width="2"/>'
-    '<circle cx="19" cy="21" r="2.6" fill="#fff"/><circle cx="31" cy="28" r="2.4" fill="#5EEAD4"/>'
+    '<svg class="logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">'
+    '<rect width="32" height="32" rx="8" fill="#1D45D8"/>'
+    '<ellipse cx="13" cy="14" rx="6" ry="5.4" stroke="#fff" stroke-width="1.6"/>'
+    '<ellipse cx="20.5" cy="19" rx="5.2" ry="4.6" stroke="#5EEAD4" stroke-width="1.6"/>'
     '</svg>')
 # Lucide-style 24x24 stroke icons.
 _ICON_PATHS = {
@@ -233,8 +211,6 @@ _ICON_PATHS = {
     "warn": '<path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z"/>'
             '<path d="M12 9v4M12 17h.01"/>',
     "error": '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>',
-    "sliders": '<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
-    "book": '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
 }
 
 
@@ -245,17 +221,19 @@ def _icon(name: str) -> str:
 
 
 GUIDE_HTML = (
-    f'<div class="panel-title">{_icon("book")}How it works</div><ol class="guide">'
-    '<li><b>Preprocess</b><span><code>clip</code>CLAHE lifts local contrast, then a light blur '
-    'removes noise.</span></li>'
-    '<li><b>U-Net probability</b><span>A ResNet34 U-Net scores every pixel 0–1 for '
-    '“is this a cell?”.</span></li>'
-    '<li><b>Threshold + cleanup</b><span><code>τ</code><code>kernel</code>Pixels above τ become '
-    'the mask; morphology fills holes and drops specks.</span></li>'
-    '<li><b>Watershed split</b><span><code>r</code><code>min dist</code>Distance-map peaks seed '
-    'one region per cell, so touching cells separate.</span></li>'
-    '<li><b>Count &amp; measure</b><span><code>min area</code>Tiny regions are dropped; the rest '
-    'are numbered and measured.</span></li></ol>')
+    '<ol class="guide">'
+    '<li><b>Enhance contrast</b><p>CLAHE brightens dim regions, then a light blur removes '
+    'noise. Setting: <em>contrast boost</em>.</p></li>'
+    '<li><b>Find cell pixels</b><p>A U-Net (ResNet34 encoder) gives every pixel a probability '
+    'of belonging to a cell.</p></li>'
+    '<li><b>Make the mask</b><p>Pixels above the threshold become the mask; smoothing fills '
+    'holes and removes specks. Settings: <em>probability threshold τ</em>, '
+    '<em>smoothing kernel</em>.</p></li>'
+    '<li><b>Split touching cells</b><p>Peaks of the distance map seed a watershed, giving one '
+    'region per cell. Settings: <em>peak ratio r</em>, <em>minimum peak distance</em>.</p></li>'
+    '<li><b>Count and measure</b><p>Regions below the minimum area are dropped; the rest are '
+    'numbered in reading order and measured. Setting: <em>minimum cell area</em>.</p></li>'
+    '</ol>')
 
 
 THEME_KEY = "cellseg-theme"
@@ -283,9 +261,8 @@ def _out_image(label: str, height: int = OUT_H) -> gr.Image:
                     buttons=["download", "fullscreen"])
 
 
-def _title(n, text: str) -> gr.HTML:
-    badge = f'<span class="n">{n}</span>' if isinstance(n, int) else _icon(n)
-    return gr.HTML(f'<div class="panel-title">{badge}{text}</div>')
+def _heading(text: str, cls: str = "section-title") -> gr.HTML:
+    return gr.HTML(f'<div class="{cls}">{text}</div>')
 
 
 def _summary_html(stats: Dict[str, float] = None, areas: Tuple[int, int] = None) -> str:
@@ -356,8 +333,8 @@ def build_ui() -> gr.Blocks:
         if res.count == 0:
             status = _status_html(NO_CELLS_MSG, "warn", res.warnings)
         else:
-            status = _status_html(f"Segmented {res.count} cells. Explore layers with the "
-                                  "dropdown; per-cell measurements are in the CSV.", "ok",
+            status = _status_html(f"Segmented {res.count} cells. Switch layers to "
+                                  "compare steps; per-cell data is in the CSV.", "ok",
                                   res.warnings)
         im = res.images
         areas = (int(df.area_px.min()), int(df.area_px.max())) if res.count else None
@@ -382,34 +359,25 @@ def build_ui() -> gr.Blocks:
         with gr.Row(elem_id="topbar", equal_height=True):
             gr.HTML(
                 f'<header id="app-header"><div class="brand">{LOGO_SVG}<div><h1>{TITLE}</h1>'
-                "<p>Count and measure cells in stained microscopy images, including cells that "
-                "touch. A U-Net finds cell pixels; watershed splits clumps into single cells.</p>"
-                '</div></div><div class="chips"><span class="chip">U-Net · ResNet34</span>'
-                '<span class="chip">Watershed</span>'
-                f'<span class="chip live">Running on {html.escape(device_text)}</span></div>'
-                "</header>")
-            theme_btn = gr.Button("Toggle dark mode", elem_id="theme-btn", scale=0, min_width=44)
+                "<p>Count and measure touching cells in stained microscopy images.</p></div>"
+                f'</div><span class="device">{html.escape(device_text)}</span></header>')
+            theme_btn = gr.Button("Toggle dark mode", elem_id="theme-btn", scale=0, min_width=36)
         layers = gr.State({})
         with gr.Row(equal_height=False):
-            # Left: input + guide
-            with gr.Column(scale=1, min_width=300):
-                with gr.Column(variant="panel"):
-                    _title(1, "Choose an image")
-                    inp = gr.Image(type="numpy", label="Microscopy image (PNG, JPG, TIF)",
-                                   sources=["upload", "clipboard"], height=230)
-                    examples = _sample_images()
-                    if examples:
-                        gr.Examples(examples, inputs=inp, label="Or try a sample",
-                                    cache_examples=False, examples_per_page=6)
-                with gr.Column(variant="panel"):
-                    _title(2, "Segment")
-                    with gr.Row():
-                        run_btn = gr.Button("Segment cells", variant="primary", scale=3,
-                                            min_width=0, elem_id="run-btn")
-                        reset_btn = gr.Button("Reset", variant="secondary", scale=1,
-                                              min_width=0)
-                with gr.Column(variant="panel"):
-                    gr.HTML(GUIDE_HTML)
+            # Left: image in, run
+            with gr.Column(scale=1, min_width=290, variant="panel"):
+                _heading("Image")
+                inp = gr.Image(type="numpy", label="Microscopy image (PNG, JPG, TIF)",
+                               sources=["upload", "clipboard"], height=220, elem_id="inp")
+                examples = _sample_images()
+                if examples:
+                    gr.Examples(examples, inputs=inp, label="Samples",
+                                cache_examples=False, examples_per_page=6)
+                gr.HTML('<div class="divider"></div>')
+                with gr.Row():
+                    run_btn = gr.Button("Segment cells", variant="primary", scale=3,
+                                        min_width=0, elem_id="run-btn")
+                    reset_btn = gr.Button("Reset", variant="secondary", scale=1, min_width=0)
 
             # Center: results
             with gr.Column(scale=3, min_width=480):
@@ -419,42 +387,41 @@ def build_ui() -> gr.Blocks:
                     with gr.Tab("Result"):
                         with gr.Row(equal_height=False):
                             with gr.Column(scale=3, min_width=360):
-                                layer_dd = gr.Dropdown(
-                                    list(LAYERS), value=DEFAULT_LAYER, label="Show layer",
-                                    info="Compare each pipeline stage in the same view.")
-                                out_view = _out_image("Viewer", height=520)
+                                layer_dd = gr.Dropdown(list(LAYERS), value=DEFAULT_LAYER,
+                                                       label="Layer")
+                                out_view = _out_image("Viewer", height=440)
                             with gr.Column(scale=2, min_width=320):
                                 out_hist = gr.Plot(label="Cell area distribution", elem_id="hist")
                                 out_csv = gr.File(label="Per-cell measurements (CSV)",
                                                   interactive=False)
                     with gr.Tab("Pipeline stages"):
-                        gr.HTML('<p class="caption">Left to right, top to bottom: what the '
-                                "model sees at each step. Change a parameter on the right and "
-                                "segment again to see its effect.</p>")
+                        gr.HTML('<p class="caption">Intermediate images from each step. Change '
+                                "a setting and segment again to compare.</p>")
                         with gr.Row():
-                            out_orig = _out_image("1 · Original image")
-                            out_prob = _out_image("2 · Cell probability (U-Net)")
+                            out_orig = _out_image("1. Original image")
+                            out_prob = _out_image("2. Cell probability (U-Net)")
                         with gr.Row():
-                            out_mask = _out_image("3 · Binary mask (τ + morphology)")
-                            out_dist = _out_image("4 · Distance map with seeds (r, min dist)")
+                            out_mask = _out_image("3. Binary mask")
+                            out_dist = _out_image("4. Distance map with seeds")
                     with gr.Tab("Measurements"):
                         out_table = gr.Dataframe(headers=TABLE_HEADERS, interactive=False,
                                                  max_height=560, label="One row per cell")
+                    with gr.Tab("How it works"):
+                        gr.HTML(GUIDE_HTML)
 
-            # Right: parameters
+            # Right: settings
             with gr.Column(scale=1, min_width=300, variant="panel"):
-                _title("sliders", "Parameters")
+                _heading("Settings")
                 preset_dd = gr.Dropdown(list(PRESETS) + [CUSTOM], value=DEFAULT_PRESET,
-                                        label="Image type preset",
-                                        info="Pick the closest match, then fine-tune.")
+                                        label="Preset")
                 preset_hint = gr.HTML(_preset_hint(DEFAULT_PRESET))
                 sliders = []
-                for i, (title, group) in enumerate(PARAM_GROUPS):
-                    gr.HTML(f'<div class="group-label{" first" if i == 0 else ""}">{title}</div>')
+                for title, group in PARAM_GROUPS:
+                    _heading(title, "group-title")
                     sliders += [gr.Slider(lo, hi, value=getattr(DEFAULTS, name), step=step,
                                           label=label, info=info)
                                 for name, label, lo, hi, step, info in group]
-                run_btn_2 = gr.Button("Apply & segment", variant="primary", elem_id="run-btn-2")
+                run_btn_2 = gr.Button("Segment with these settings", variant="secondary")
 
         outputs = [out_view, out_hist, out_orig, out_prob, out_mask, out_dist,
                    summary, out_csv, out_table, layers, layer_dd, status]
