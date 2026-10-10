@@ -36,3 +36,6 @@
 | 2026-10-10 | Histogram y-axis integer ticks | counts are integers |
 | 2026-10-10 | bbox in CSV uses skimage convention (max row/col exclusive) | direct from regionprops; documented for report |
 | 2026-10-10 | Build order M6 → M8 → M11 → M12 (train) → M7 → M9 → M10 → M13 → M14 → M15 | training is the longest step; GPU trains while UI modules are coded |
+| 2026-10-10 | `count_error` with gt = 0 divides by 1 | finite value for CSV/JSON; 0 vs 0 → 0 % |
+| 2026-10-10 | Per-cell P/R: one side empty → (0, 0); both empty → (1, 1) | empty prediction must not score as perfect |
+| 2026-10-10 | PSNR/SSIM require same dtype; data_range from dtype (uint16 → 65535) | mixing uint8 and float silently gives wrong dB values |

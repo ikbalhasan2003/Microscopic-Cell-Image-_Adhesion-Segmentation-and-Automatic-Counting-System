@@ -23,7 +23,7 @@
 - [x] `core/watershed.py` — distance transform + watershed
 - [x] `core/analysis.py` — numbering, area, histogram
 - [ ] `utils/visualize.py` — heatmap, contour overlay
-- [ ] `utils/metrics.py` — IoU, Dice, PSNR, SSIM
+- [x] `utils/metrics.py` — IoU, Dice, PSNR, SSIM
 - [ ] `core/pipeline.py` — orchestrator + U-Net cache
 - [ ] `app.py` — Gradio UI, sliders, CSV export
 - [ ] ≥3 "run first, optimize later" tuning dialogues
