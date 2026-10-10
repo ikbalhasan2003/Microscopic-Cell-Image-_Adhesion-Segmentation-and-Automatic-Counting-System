@@ -18,7 +18,7 @@
 - [x] `utils/device.py` — GPU→CPU fallback
 - [x] `utils/logger.py` — logging, per-stage timing
 - [x] `core/preprocess.py` — CLAHE + blur
-- [ ] `core/unet_model.py` — load ResNet34 U-Net, predict prob map
+- [x] `core/unet_model.py` — load ResNet34 U-Net, predict prob map
 - [ ] `core/postprocess.py` — threshold + morphology
 - [ ] `core/watershed.py` — distance transform + watershed
 - [ ] `core/analysis.py` — numbering, area, histogram

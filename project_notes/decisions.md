@@ -20,3 +20,6 @@
 | 2026-10-10 | `stage_timer` re-raises after `logger.exception` | pipeline/UI decide how to show error; log keeps full traceback + elapsed time |
 | 2026-10-10 | Preprocessor rejects dtypes other than uint8/uint16/float (e.g. int32) | prompt lists only these; silent cast of signed ints could wrap values |
 | 2026-10-10 | No intensity inversion for bright-field vs fluorescence | DSB training set has both polarities; U-Net learns both; keeps train/inference preprocessing identical |
+| 2026-10-10 | Public helper `build_unet(encoder_weights)` in `core/unet_model.py` | train (ImageNet init) and inference (no init, load weights) must build the same architecture; one definition |
+| 2026-10-10 | `torch.load(..., weights_only=True)` | safe loading (no pickle code execution); checkpoint holds only tensors + int/float |
+| 2026-10-10 | Reflect-pad to multiple of 32 with `np.pad`, crop after | encoder downsamples 5×; reflect avoids dark border artefacts; np.pad works for any pad size |
