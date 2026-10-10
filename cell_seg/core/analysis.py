@@ -47,13 +47,13 @@ class CellAnalyzer:
             ax.set_axis_off()
             return fig
         areas = np.array([c.area for c in cells])
-        ax.hist(areas, bins="auto", color="#4C72B0", edgecolor="white")
+        ax.hist(areas, bins="auto", color="#4B3B8F", edgecolor="white")
         mean = float(areas.mean())
-        ax.axvline(mean, color="#C44E52", linestyle="--", label=f"mean = {mean:.0f}")
+        ax.axvline(mean, color="#D9467A", linestyle="--", label=f"mean = {mean:.0f}")
         ax.set_xlabel("Cell area (px²)")
         ax.set_ylabel("Count")
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-        ax.set_title("Cell area distribution")
+        ax.spines[["top", "right"]].set_visible(False)
         ax.legend()
         fig.tight_layout()
         return fig
