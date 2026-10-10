@@ -54,7 +54,7 @@ def distance_map_view(dist: np.ndarray, labels: np.ndarray) -> np.ndarray:
 
 def overlay_contours(img: np.ndarray, labels: np.ndarray, cells: List[CellInfo]) -> np.ndarray:
     """Green contour + white id (dark outline) per cell; labels must be renumbered (value == id)."""
-    out = np.ascontiguousarray(_to_rgb_uint8(img))
+    out = np.ascontiguousarray(to_rgb_uint8(img))
     _check_labels(labels, out.shape[:2])
     if not cells:
         return out
@@ -76,7 +76,8 @@ def overlay_contours(img: np.ndarray, labels: np.ndarray, cells: List[CellInfo])
     return out
 
 
-def _to_rgb_uint8(img: np.ndarray) -> np.ndarray:
+def to_rgb_uint8(img: np.ndarray) -> np.ndarray:
+    """Any gray/RGB/RGBA, uint8/uint16/float image -> RGB uint8."""
     if not isinstance(img, np.ndarray) or img.size == 0 or img.ndim not in (2, 3):
         raise ValueError(f"Image must be a non-empty H x W or H x W x C array, got "
                          f"{getattr(img, 'shape', type(img).__name__)}.")

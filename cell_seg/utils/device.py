@@ -10,7 +10,9 @@ _logged = False
 def get_device() -> torch.device:
     """CUDA if available, else CPU; logs the choice once per process."""
     global _logged
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device_count() check: with CUDA_VISIBLE_DEVICES="" is_available() can be True with 0 devices.
+    use_cuda = torch.cuda.is_available() and torch.cuda.device_count() > 0
+    device = torch.device("cuda" if use_cuda else "cpu")
     if not _logged:
         if device.type == "cuda":
             _logger.info("Using device: CUDA (%s)", torch.cuda.get_device_name(0))

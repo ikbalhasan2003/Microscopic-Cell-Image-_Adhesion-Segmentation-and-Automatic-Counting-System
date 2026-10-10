@@ -45,3 +45,6 @@
 | 2026-10-10 | Target = nuclei (DSB labels nuclei only) | ground truth defines what is counted; stated in report |
 | 2026-10-10 | Contours via `find_boundaries(mode="inner")` on renumbered labels (not per-cell `findContours`) | one vectorised pass; touching cells get a boundary between them |
 | 2026-10-10 | Overlay font scale clip(min(H,W)/700, 0.3, 1.2), line thickness grows > 1000 px | readable on 256 px samples and large microscope images |
+| 2026-10-10 | `get_device` requires `device_count() > 0` besides `is_available()` | torch on Windows reports available with `CUDA_VISIBLE_DEVICES=""` but has 0 devices |
+| 2026-10-10 | Pipeline cache key = SHA-1(image bytes) + shape + dtype + clip + blur_k | only inputs that change the U-Net output; slider moves on later stages reuse the prob map |
+| 2026-10-10 | `visualize.to_rgb_uint8` public | pipeline "original" panel and overlay use one conversion |

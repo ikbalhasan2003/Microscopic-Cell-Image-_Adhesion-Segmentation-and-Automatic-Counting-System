@@ -23,3 +23,5 @@
 - **2026-10-10** — M8 done: `utils/metrics.py` (IoU, Dice, PSNR, SSIM, count error, greedy per-cell P/R). All checks pass. Next: M11 dataset + loss.
 - **2026-10-10** — M11 done: `training/dataset.py` (seed-42 80/10/10 split, shared preprocessing, RAM cache, augmentations) + `training/losses.py` (BCE + Dice). Checks pass; `outputs/dataset_check.png`. Samples 02/03 fall in train split (optimistic), 01 in test. Next: M12 training loop.
 - **2026-10-10** — M7 done: `utils/visualize.py` (fixed-scale viridis heatmap, mask view, bone distance map + red seeds, green contours + outlined ids). Checks pass; `outputs/vis_check_*.png`.
+- **2026-10-10** — M1 fix: `get_device` also requires `device_count() > 0` (crash with hidden GPU found during M12 CPU smoke test).
+- **2026-10-10** — M9 done: `core/pipeline.py` (lazy U-Net, last-entry prob cache, per-stage timing, field-named param validation). Cache hit 0.03 s vs 0.42 s first run.
