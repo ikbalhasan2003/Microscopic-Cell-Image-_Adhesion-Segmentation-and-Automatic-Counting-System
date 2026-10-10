@@ -2,7 +2,7 @@
 
 **Project:** Microscopic Cell Image — Adhesion Segmentation & Automatic Counting (Topic 3)
 **Course:** Introduction to AI, Wuhan Institute of Technology · Advisor: Huang Qing
-**Date:** 2026-10-10 · **Status:** awaiting instructor / TA confirmation
+**Date:** 2026-10-10 · **Status:** approved by teacher (2026-10-10)
 
 Every module is a signature-only stub (`raise NotImplementedError`). No logic will be written until this interface is approved. Diagrams are in `Docs/Architechture.pdf` (p.1 system, p.2 data flow, p.3 U-Net, p.4 structure, p.5 UI, p.6 error handling).
 
