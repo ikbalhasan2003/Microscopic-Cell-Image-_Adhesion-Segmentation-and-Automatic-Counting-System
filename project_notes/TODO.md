@@ -20,7 +20,7 @@
 - [x] `core/preprocess.py` — CLAHE + blur
 - [x] `core/unet_model.py` — load ResNet34 U-Net, predict prob map
 - [x] `core/postprocess.py` — threshold + morphology
-- [ ] `core/watershed.py` — distance transform + watershed
+- [x] `core/watershed.py` — distance transform + watershed
 - [ ] `core/analysis.py` — numbering, area, histogram
 - [ ] `utils/visualize.py` — heatmap, contour overlay
 - [ ] `utils/metrics.py` — IoU, Dice, PSNR, SSIM

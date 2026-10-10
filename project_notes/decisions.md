@@ -27,3 +27,8 @@
 | 2026-10-10 | 8-connectivity for mask components | diagonal-touching pixels belong to one blob; matches OpenCV default |
 | 2026-10-10 | Prob map tolerance 1e-4 outside [0,1]; NaN/inf rejected | sigmoid/float rounding can slightly overshoot; NaN would silently become background |
 | 2026-10-10 | Keep default min_area=50 / kernel=5 for now despite `01_sparse` losing small nuclei | defaults are from approved mockup; revisit as tuning dialogue in M15 with trained weights |
+| 2026-10-10 | Watershed seeds: per-blob threshold `dist ≥ peak_ratio × max dist of that blob`, not global max | global max left 10 of 30 blobs on dense sample without a seed (small cells beside big ones) |
+| 2026-10-10 | Every blob gets ≥ 1 seed (argmax added if none) | no mask blob may vanish from the count |
+| 2026-10-10 | Seed pixels labelled with 8-connectivity before watershed | flat distance ridges give adjacent equal peaks; merge them so one cell = one marker |
+| 2026-10-10 | `watershed(..., connectivity=2)` | matches 8-connected blobs from MaskRefiner; no unlabelled pixels inside mask |
+| 2026-10-10 | Keep default min_dist=10 for now; min_dist=5 fits dense sample better | defaults from mockup; revisit in M15 tuning with trained weights |
