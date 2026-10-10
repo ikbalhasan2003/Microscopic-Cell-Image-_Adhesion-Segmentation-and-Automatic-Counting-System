@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Model weights (large; share separately)
+cell_seg/weights/*.pth
+cell_seg/weights/*.pt
+
+# Generated outputs (keep folder via .gitkeep)
+cell_seg/outputs/*
+!cell_seg/outputs/.gitkeep
+
+# Datasets
+data/
+stage1_train/
+*.zip
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
