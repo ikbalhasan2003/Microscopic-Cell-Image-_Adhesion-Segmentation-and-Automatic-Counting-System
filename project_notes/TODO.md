@@ -17,7 +17,7 @@
 ## Phase 2 — Core modules
 - [x] `utils/device.py` — GPU→CPU fallback
 - [x] `utils/logger.py` — logging, per-stage timing
-- [ ] `core/preprocess.py` — CLAHE + blur
+- [x] `core/preprocess.py` — CLAHE + blur
 - [ ] `core/unet_model.py` — load ResNet34 U-Net, predict prob map
 - [ ] `core/postprocess.py` — threshold + morphology
 - [ ] `core/watershed.py` — distance transform + watershed

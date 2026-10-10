@@ -18,3 +18,5 @@
 | 2026-10-10 | Samples: sparse / dense-touching / low-contrast from stage1_train, GT in `samples/gt/` | covers the 3 required cases; GT enables IoU/Dice in ablation |
 | 2026-10-10 | Loggers set `propagate=False`, handlers added only if logger has none | prevents duplicate lines when `get_logger` called repeatedly or root logger configured (e.g. by Gradio) |
 | 2026-10-10 | `stage_timer` re-raises after `logger.exception` | pipeline/UI decide how to show error; log keeps full traceback + elapsed time |
+| 2026-10-10 | Preprocessor rejects dtypes other than uint8/uint16/float (e.g. int32) | prompt lists only these; silent cast of signed ints could wrap values |
+| 2026-10-10 | No intensity inversion for bright-field vs fluorescence | DSB training set has both polarities; U-Net learns both; keeps train/inference preprocessing identical |
