@@ -30,7 +30,7 @@
 
 ## Training
 - [x] Download DSB 2018 (BBBC038 mirror → `D:\datasets\dsb2018\stage1_train`)
-- [ ] `training/dataset.py`, `losses.py`, `train.py`
+- [~] `training/dataset.py`, `losses.py` done; `train.py` next
 - [ ] Train → `weights/unet_cells.pth`
 
 ## Phase 3 — Integration
