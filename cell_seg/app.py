@@ -91,6 +91,8 @@ THEME = gr.themes.Base(
     block_label_text_weight="500",
     button_primary_background_fill="linear-gradient(135deg, *primary_600, #0D9488)",
     button_primary_background_fill_hover="linear-gradient(135deg, *primary_700, #0F766E)",
+    button_primary_background_fill_dark="linear-gradient(135deg, *primary_600, #0D9488)",
+    button_primary_background_fill_hover_dark="linear-gradient(135deg, *primary_500, #14B8A6)",
     button_primary_text_color="#FFFFFF",
     slider_color="*primary_600",
 )
@@ -106,10 +108,24 @@ footer { display: none !important; }
 .num { font-family: 'Fira Code', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
 /* Header */
-#app-header { display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  flex-wrap: wrap; margin: 12px 0 8px; padding: 18px 22px; border-radius: 14px;
-  background: linear-gradient(120deg, #1E3A8A 0%, #1D4ED8 45%, #0D9488 100%); color: #fff;
+#topbar { margin: 12px 0 8px; padding: 18px 22px; border-radius: 14px; align-items: center;
+  gap: 16px; background: linear-gradient(120deg, #1E3A8A 0%, #1D4ED8 45%, #0D9488 100%);
   box-shadow: 0 6px 24px -12px rgba(29, 78, 216, 0.55); }
+.dark #topbar { background: linear-gradient(120deg, #0F1E4D 0%, #1E3A8A 50%, #115E59 100%); }
+#topbar > div { background: transparent !important; border: 0 !important; padding: 0 !important; }
+#app-header { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap; color: #fff; }
+#theme-btn { flex: none !important; width: 44px; min-width: 44px !important; height: 44px; padding: 0 !important; border-radius: 12px !important;
+  font-size: 0 !important; background: rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important; box-shadow: none !important;
+  display: flex !important; align-items: center; justify-content: center; line-height: 0; }
+#theme-btn:hover { background: rgba(255, 255, 255, 0.24) !important; }
+#theme-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+#theme-btn::before { content: ""; width: 20px; height: 20px; background: #fff;
+  -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat;
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E"); }
+.dark #theme-btn::before {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'/%3E%3C/svg%3E"); }
 #app-header .brand { display: flex; align-items: center; gap: 14px; }
 #app-header .logo { width: 44px; height: 44px; flex: none; }
 #app-header h1 { margin: 0; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em;
@@ -188,6 +204,8 @@ button:active { transform: translateY(1px); }
 .guide code { font-family: 'Fira Code', monospace; font-size: 0.74rem; padding: 1px 6px;
   border-radius: 6px; background: color-mix(in srgb, var(--teal) 12%, transparent);
   color: var(--teal); margin-right: 4px; }
+/* Matplotlib renders a light PNG; invert it in dark mode (hue-rotate keeps the blue bars blue). */
+.dark #hist img { filter: invert(0.9) hue-rotate(180deg); }
 .caption { margin: 2px 2px 0; font-size: 0.82rem; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -238,6 +256,20 @@ GUIDE_HTML = (
     'one region per cell, so touching cells separate.</span></li>'
     '<li><b>Count &amp; measure</b><span><code>min area</code>Tiny regions are dropped; the rest '
     'are numbered and measured.</span></li></ol>')
+
+
+THEME_KEY = "cellseg-theme"
+# Gradio puts the "dark" class on <body>; we flip it and remember the choice per browser.
+TOGGLE_THEME_JS = f"""() => {{
+  const dark = !document.body.classList.contains('dark');
+  document.body.classList.toggle('dark', dark);
+  try {{ localStorage.setItem('{THEME_KEY}', dark ? 'dark' : 'light'); }} catch (e) {{}}
+}}"""
+RESTORE_THEME_JS = f"""() => {{
+  let saved = null;
+  try {{ saved = localStorage.getItem('{THEME_KEY}'); }} catch (e) {{}}
+  if (saved) document.body.classList.toggle('dark', saved === 'dark');
+}}"""
 
 
 def _sample_images() -> List[List[str]]:
@@ -347,13 +379,16 @@ def build_ui() -> gr.Blocks:
                 + _empty(_status_html(NO_IMAGE_MSG)))
 
     with gr.Blocks(title=TITLE, fill_width=True) as demo:
-        gr.HTML(
-            f'<header id="app-header"><div class="brand">{LOGO_SVG}<div><h1>{TITLE}</h1>'
-            "<p>Count and measure cells in stained microscopy images, including cells that "
-            "touch. A U-Net finds cell pixels; watershed splits clumps into single cells.</p>"
-            '</div></div><div class="chips"><span class="chip">U-Net · ResNet34</span>'
-            '<span class="chip">Watershed</span>'
-            f'<span class="chip live">Running on {html.escape(device_text)}</span></div></header>')
+        with gr.Row(elem_id="topbar", equal_height=True):
+            gr.HTML(
+                f'<header id="app-header"><div class="brand">{LOGO_SVG}<div><h1>{TITLE}</h1>'
+                "<p>Count and measure cells in stained microscopy images, including cells that "
+                "touch. A U-Net finds cell pixels; watershed splits clumps into single cells.</p>"
+                '</div></div><div class="chips"><span class="chip">U-Net · ResNet34</span>'
+                '<span class="chip">Watershed</span>'
+                f'<span class="chip live">Running on {html.escape(device_text)}</span></div>'
+                "</header>")
+            theme_btn = gr.Button("Toggle dark mode", elem_id="theme-btn", scale=0, min_width=44)
         layers = gr.State({})
         with gr.Row(equal_height=False):
             # Left: input + guide
@@ -389,7 +424,7 @@ def build_ui() -> gr.Blocks:
                                     info="Compare each pipeline stage in the same view.")
                                 out_view = _out_image("Viewer", height=520)
                             with gr.Column(scale=2, min_width=320):
-                                out_hist = gr.Plot(label="Cell area distribution")
+                                out_hist = gr.Plot(label="Cell area distribution", elem_id="hist")
                                 out_csv = gr.File(label="Per-cell measurements (CSV)",
                                                   interactive=False)
                     with gr.Tab("Pipeline stages"):
@@ -430,6 +465,8 @@ def build_ui() -> gr.Blocks:
         for s in sliders:  # manual edits (not preset updates) mark the settings as custom
             s.input(lambda: CUSTOM, outputs=preset_dd)
         reset_btn.click(reset, outputs=[*sliders, preset_dd, preset_hint, inp, *outputs])
+        theme_btn.click(None, js=TOGGLE_THEME_JS)
+        demo.load(None, js=RESTORE_THEME_JS)
     return demo
 
 
