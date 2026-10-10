@@ -24,3 +24,9 @@ Format: **Round X** — timestamp · My instruction → Agent response → My fe
 - **Agent response:** Found blockers: no packages, Python 3.14 too new, C: 97% full, no conda, no samples/dataset. Installed Miniconda + Python 3.11 env on D:, CUDA torch, requirements (+lock file), VS Code interpreter, DSB 2018 data, 3 samples with GT. Initialised git, pushed to GitHub.
 - **Problem found:** `opencv-python` and `opencv-python-headless` both installed (same `cv2` folder) → kept headless only, updated requirements.txt.
 - **Feedback / rationale:** Agreed with the blockers found: Python 3.14 too new, C: almost full, so env and data go on D: with Python 3.11. Checked GPU works (torch.cuda.is_available() = True). Duplicate OpenCV fix is reasonable. Samples cover the 3 cases I need (sparse, touching, low contrast). Everything pushed to GitHub. Ready for Phase 2.
+
+### Round 5 — 2026-10-10 · Phase 2 · M1 device + logging
+- **Instruction:** Start M1 (device + logging) from `module_prompts.md`.
+- **Agent response:** Implemented `utils/logger.py`: `get_logger` (console + `outputs/app.log`, format `time | level | name | msg`, INFO, `propagate=False`, handlers added only once per name) and `stage_timer` (logs "<stage> done in X.XX s"; on exception logs traceback via `logger.exception` and re-raises). Implemented `utils/device.py`: `get_device` (CUDA else CPU, logs choice + GPU name once per process) and `device_label` ("CUDA (GPU)" / "CPU", ValueError on non-device input). Done-when checks: `cuda CUDA (GPU)`, one "sleep done in 0.10 s" line, `get_logger('t')` twice → same object, 2 handlers, no duplicate lines; failure path logs traceback and re-raises; all lines also in `outputs/app.log`.
+- **Problem found:** _(none yet — fill after review)_
+- **Feedback / rationale:** _(fill in)_

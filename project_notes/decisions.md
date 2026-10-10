@@ -16,3 +16,5 @@
 | 2026-10-10 | `requirements-lock.txt` with exact versions | reproducible install; installed majors (gradio 6, pandas 3, numpy 2, cv2 5) newer than prompt assumptions |
 | 2026-10-10 | Dataset from BBBC038 mirror instead of Kaggle API | same DSB 2018 data, public, no Kaggle token needed |
 | 2026-10-10 | Samples: sparse / dense-touching / low-contrast from stage1_train, GT in `samples/gt/` | covers the 3 required cases; GT enables IoU/Dice in ablation |
+| 2026-10-10 | Loggers set `propagate=False`, handlers added only if logger has none | prevents duplicate lines when `get_logger` called repeatedly or root logger configured (e.g. by Gradio) |
+| 2026-10-10 | `stage_timer` re-raises after `logger.exception` | pipeline/UI decide how to show error; log keeps full traceback + elapsed time |

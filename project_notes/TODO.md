@@ -15,8 +15,8 @@
 - [x] 3 sample images + GT
 
 ## Phase 2 — Core modules
-- [ ] `utils/device.py` — GPU→CPU fallback
-- [ ] `utils/logger.py` — logging, per-stage timing
+- [x] `utils/device.py` — GPU→CPU fallback
+- [x] `utils/logger.py` — logging, per-stage timing
 - [ ] `core/preprocess.py` — CLAHE + blur
 - [ ] `core/unet_model.py` — load ResNet34 U-Net, predict prob map
 - [ ] `core/postprocess.py` — threshold + morphology
