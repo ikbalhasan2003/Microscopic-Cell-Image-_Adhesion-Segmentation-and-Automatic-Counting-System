@@ -28,3 +28,4 @@ stage1_train/
 Thumbs.db
 desktop.ini
 .DS_Store
+.playwright-mcp/

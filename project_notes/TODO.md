@@ -30,8 +30,8 @@
 
 ## Training
 - [x] Download DSB 2018 (BBBC038 mirror → `D:\datasets\dsb2018\stage1_train`)
-- [~] `training/dataset.py`, `losses.py` done; `train.py` next
-- [ ] Train → `weights/unet_cells.pth`
+- [x] `training/dataset.py`, `losses.py`, `train.py`
+- [x] Train → `weights/unet_cells.pth` (val Dice 0.902, test Dice 0.914)
 
 ## Phase 3 — Integration
 - [ ] End-to-end run on samples

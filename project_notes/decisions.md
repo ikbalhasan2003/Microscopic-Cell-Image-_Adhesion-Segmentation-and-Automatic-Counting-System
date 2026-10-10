@@ -48,3 +48,6 @@
 | 2026-10-10 | `get_device` requires `device_count() > 0` besides `is_available()` | torch on Windows reports available with `CUDA_VISIBLE_DEVICES=""` but has 0 devices |
 | 2026-10-10 | Pipeline cache key = SHA-1(image bytes) + shape + dtype + clip + blur_k | only inputs that change the U-Net output; slider moves on later stages reuse the prob map |
 | 2026-10-10 | `visualize.to_rgb_uint8` public | pipeline "original" panel and overlay use one conversion |
+| 2026-10-10 | Test evaluation also through the real inference path at native resolution | 256 px metrics alone would hide resize effects; app runs at native size |
+| 2026-10-10 | `HF_HUB_OFFLINE=1` when training here | HF download hangs on this network; smp falls back to download.pytorch.org torchvision weights |
+| 2026-10-10 | AMP on CUDA | 3.6 s/epoch on RTX 2060 SUPER; no accuracy issue seen |
