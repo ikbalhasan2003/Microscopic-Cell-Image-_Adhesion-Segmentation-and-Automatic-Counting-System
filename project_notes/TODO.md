@@ -26,6 +26,7 @@
 - [x] `utils/metrics.py` — IoU, Dice, PSNR, SSIM
 - [x] `core/pipeline.py` — orchestrator + U-Net cache
 - [x] `app.py` — Gradio UI, sliders, CSV export
+- [x] UI redesign 2: full-width dashboard, preset + layer dropdowns, measurements table
 - [x] ≥3 "run first, optimize later" tuning dialogues (Rounds 22–25)
 
 ## Training

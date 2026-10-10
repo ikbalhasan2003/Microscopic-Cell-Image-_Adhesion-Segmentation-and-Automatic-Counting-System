@@ -47,14 +47,17 @@ class CellAnalyzer:
             ax.set_axis_off()
             return fig
         areas = np.array([c.area for c in cells])
-        ax.hist(areas, bins="auto", color="#4B3B8F", edgecolor="white")
-        mean = float(areas.mean())
-        ax.axvline(mean, color="#D9467A", linestyle="--", label=f"mean = {mean:.0f}")
+        ax.hist(areas, bins="auto", color="#2563EB", edgecolor="white")
+        mean, median = float(areas.mean()), float(np.median(areas))
+        ax.axvline(mean, color="#0D9488", linestyle="--", label=f"mean = {mean:.0f}")
+        ax.axvline(median, color="#64748B", linestyle=":", label=f"median = {median:.0f}")
         ax.set_xlabel("Cell area (px²)")
         ax.set_ylabel("Count")
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         ax.spines[["top", "right"]].set_visible(False)
-        ax.legend()
+        ax.grid(axis="y", color="#E2E8F0", linewidth=0.8)
+        ax.set_axisbelow(True)
+        ax.legend(frameon=False)
         fig.tight_layout()
         return fig
 
