@@ -34,8 +34,8 @@
 - [x] Train → `weights/unet_cells.pth` (val Dice 0.902, test Dice 0.914)
 
 ## Phase 3 — Integration
-- [ ] End-to-end run on samples
-- [ ] OOM → tile + retry; empty-result hint
+- [x] End-to-end run on samples
+- [x] OOM → tile + retry; empty-result hint; huge-image downscale
 - [x] `tests/` unit tests (58 passed, 4.4 s)
 
 ## Deliverables

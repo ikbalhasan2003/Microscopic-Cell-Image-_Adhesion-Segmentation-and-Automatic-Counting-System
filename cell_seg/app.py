@@ -68,8 +68,9 @@ def build_ui() -> gr.Blocks:
             return _empty(f"❌ Invalid input: {e}")
         except Exception as e:  # app must never crash (architecture p.6)
             _logger.exception("Segmentation failed")
-            return _empty(f"❌ Unexpected error ({type(e).__name__}: {e}). Details in outputs/app.log.")
+            return _empty(f"❌ Unexpected error ({type(e).__name__}). Details in outputs/app.log.")
         status = NO_CELLS_MSG if res.count == 0 else f"✅ Done — {res.count} cells detected."
+        status = "\n\n".join([status] + [f"ℹ️ {w}" for w in res.warnings])
         im = res.images
         return (im["original"], im["prob"], im["mask"], im["distance"], im["overlay"],
                 pipeline.analyzer.histogram(res.cells), str(res.count),
@@ -119,4 +120,4 @@ def build_ui() -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    build_ui().launch(server_name="127.0.0.1", server_port=7860, allowed_paths=[str(OUTPUTS_DIR)])
+    build_ui().launch(server_name="127.0.0.1", server_port=7860)

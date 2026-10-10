@@ -1,7 +1,8 @@
 """Orchestrator: runs all stages in order, returns every intermediate result."""
 import hashlib
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 
+import cv2
 import numpy as np
 import torch
 
@@ -14,6 +15,8 @@ from core.watershed import WatershedSplitter
 from utils.device import get_device
 from utils.logger import get_logger, stage_timer
 from utils.visualize import distance_map_view, mask_view, overlay_contours, prob_heatmap, to_rgb_uint8
+
+MAX_SIDE = 4096  # larger images are downscaled (memory / UI response time)
 
 _logger = get_logger(__name__)
 
@@ -35,6 +38,7 @@ class CellCountingPipeline:
     def run(self, img: np.ndarray, params: Params) -> PipelineResult:
         """Preprocess -> U-Net (cached) -> refine -> watershed -> analyse -> RGB views."""
         self._validate_params(params)
+        img, warnings = self._limit_size(img)
         with stage_timer(_logger, "preprocess"):
             gray = self.preprocessor.run(img, clip=params.clip, blur_k=params.blur_k)
             original = to_rgb_uint8(img)
@@ -52,7 +56,23 @@ class CellCountingPipeline:
                       "overlay": overlay_contours(original, labels, cells)}
         _logger.info("Detected %d cells", len(cells))
         return PipelineResult(images=images, cells=cells, count=len(cells),
-                              prob=prob, mask=mask, labels=labels)
+                              prob=prob, mask=mask, labels=labels, warnings=warnings)
+
+    @staticmethod
+    def _limit_size(img: np.ndarray) -> Tuple[np.ndarray, List[str]]:
+        """Downscale so the longest side is <= MAX_SIDE; areas are then in downscaled pixels."""
+        if not isinstance(img, np.ndarray) or img.ndim not in (2, 3) or img.size == 0:
+            return img, []  # Preprocessor raises the proper ValueError
+        h, w = img.shape[:2]
+        if max(h, w) <= MAX_SIDE:
+            return img, []
+        scale = MAX_SIDE / max(h, w)
+        size = (max(1, round(w * scale)), max(1, round(h * scale)))
+        small = cv2.resize(img, size, interpolation=cv2.INTER_AREA)
+        msg = (f"Image {w}x{h} downscaled by {scale:.3f} to {size[0]}x{size[1]}; "
+               f"areas are in downscaled px (multiply by {1 / scale ** 2:.2f} for original px).")
+        _logger.warning(msg)
+        return small, [msg]
 
     def _prob(self, img: np.ndarray, gray: np.ndarray, params: Params) -> np.ndarray:
         """U-Net prob map; reused when image, clip and blur_k are unchanged (last entry only)."""

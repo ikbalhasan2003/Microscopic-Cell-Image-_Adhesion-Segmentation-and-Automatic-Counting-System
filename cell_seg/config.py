@@ -39,3 +39,4 @@ class PipelineResult:
     prob: Optional[np.ndarray] = None    # raw H x W probability map, float32 [0, 1]
     mask: Optional[np.ndarray] = None    # raw binary mask, uint8 {0, 255}
     labels: Optional[np.ndarray] = None  # renumbered label image, int32, ids match cells
+    warnings: List[str] = field(default_factory=list)  # non-fatal notes for the UI (e.g. downscaled)

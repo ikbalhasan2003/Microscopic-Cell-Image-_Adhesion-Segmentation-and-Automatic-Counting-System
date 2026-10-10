@@ -4,7 +4,7 @@
 |---|---|---|
 | 1 — Architecture | dir structure + typed class signatures | ✅ complete; interface approved by teacher (2026-10-10) |
 | 2 — Core coding | modules one by one, ≥3 tuning dialogues | 🟨 in progress (M1–M6 done; next: M8, M11, M12 so training runs early) |
-| 3 — Integration & debug | tracebacks → targeted fixes | ⬜ not started |
+| 3 — Integration & debug | tracebacks → targeted fixes | ✅ M13 tests + M14 integration done |
 | Report | PDF + iterationlog.md + ablation | ⬜ not started |
 
 ## Log
@@ -29,3 +29,5 @@
 - **2026-10-10** — M10 done: `app.py` Gradio UI (mockup layout, sliders, Reset, examples, stats, CSV, error/empty hints). Tested in browser (Playwright) + gradio_client incl. missing-weights instance. Screenshot `outputs/ui_check.png`.
 - **2026-10-10** — Security-review fix in `train.py`: refuse to evaluate a stale checkpoint when no epoch saved one.
 - **2026-10-10** — M13 done: `tests/` — 58 pytest tests, all green in 4.4 s (CPU, fake U-Net, synthetic discs).
+- **2026-10-10** — Security fixes in `app.py`: no `allowed_paths` (outputs/ not served), generic errors show type only.
+- **2026-10-10** — M14 done: OOM → tiled → CPU fallback, clear wrong-weights error, > 4096 px downscale with UI warning; all samples + odd inputs run; timing table in iterationlog Round 21. Weak point: instance splitting on dense sample (36/87) → M15.

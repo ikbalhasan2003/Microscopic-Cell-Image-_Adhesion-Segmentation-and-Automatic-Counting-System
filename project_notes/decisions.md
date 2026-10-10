@@ -57,3 +57,8 @@
 | 2026-10-10 | `train.py` inserts `cell_seg/` at front of `sys.path` | lets `python training/train.py` import project `config`/`core`/`utils` instead of same-named pip packages (flagged by security review as module shadowing; accepted — folder is the project's own code); `python -m training.train` also works |
 | 2026-10-10 | `train.py` raises if no checkpoint saved this run | NaN val Dice would otherwise evaluate an old `unet_cells.pth` and report wrong test metrics |
 | 2026-10-10 | Tests use a fake U-Net via monkeypatch + synthetic 5-disc scene | fast (< 5 s), no weights/dataset, exact known count |
+| 2026-10-10 | No `allowed_paths` in `launch()` | security review: it exposed all of outputs/ (logs, old CSVs); Gradio serves returned files from its own cache anyway |
+| 2026-10-10 | Generic UI error shows exception type only | avoid leaking paths/internals; full traceback in app.log |
+| 2026-10-10 | OOM chain: full → 512 px tiles (64 overlap, averaged) → CPU | tiles match full inference (99.98 % mask agreement) |
+| 2026-10-10 | Wrong-architecture weights → ValueError with plain message | raw state_dict error is unreadable in the UI |
+| 2026-10-10 | Images > 4096 px downscaled (INTER_AREA); `PipelineResult.warnings` added | 4096 px peaks at 5.2 GB GPU; user told scale factor and area correction |
