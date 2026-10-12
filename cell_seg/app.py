@@ -438,4 +438,6 @@ def build_ui() -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    build_ui().launch(server_name="127.0.0.1", server_port=7860, theme=THEME, css=CSS)
+    # server_port=None: Gradio tries 7860 first, then the next free port.
+    build_ui().launch(server_name="127.0.0.1", server_port=None, inbrowser=True,
+                      theme=THEME, css=CSS)

@@ -1,0 +1,26 @@
+CELL SEGMENTATION AND COUNTING - PORTABLE VERSION
+=================================================
+
+Nothing to install. No internet needed. Works on any 64-bit Windows 10/11 PC.
+
+RUN
+  1. Copy this whole folder (or the .zip, then right-click > Extract All) to the laptop.
+     Put it on the laptop's own drive (e.g. Desktop) - running from a USB stick works but is slower.
+  2. Double-click  "Start Cell Segmentation.bat"
+  3. Your browser opens the app (address http://127.0.0.1:7860).
+     If it does not open, copy the address shown in the black window into the browser.
+  4. Pick a sample image (or upload your own) and press "Segment cells".
+  5. To stop: close the black window.
+
+NOTES
+  - If Windows shows "Windows protected your PC": click "More info" > "Run anyway".
+  - The app runs on the CPU, so it works on any laptop, with or without a graphics card.
+  - Results (CSV files) and the log are saved in  app\outputs\
+  - Do not move files out of the "python" or "app" folders.
+
+TROUBLESHOOTING
+  - Black window closes / shows an error: read the message, and check app\outputs\app.log
+  - "Port in use": the app picks the next free port automatically (7861, 7862, ...);
+    use the address printed in the black window.
+  - Error mentioning a DLL or "VCRUNTIME": install the Microsoft Visual C++ Redistributable
+    (x64) from https://aka.ms/vs/17/release/vc_redist.x64.exe and try again.

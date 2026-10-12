@@ -32,3 +32,4 @@
 - **2026-10-10** — Security fixes in `app.py`: no `allowed_paths` (outputs/ not served), generic errors show type only.
 - **2026-10-10** — M14 done: OOM → tiled → CPU fallback, clear wrong-weights error, > 4096 px downscale with UI warning; all samples + odd inputs run; timing table in iterationlog Round 21. Weak point: instance splitting on dense sample (36/87) → M15.
 - **2026-10-10** — M15 done: `tuning.py` (288-setting val grid search) → defaults kernel 3, min_area 20 (test F1 0.823 → 0.852, median count error 10 % → 6.9 %). `ablation.py` → `outputs/ablation.csv` + `ablation.png`. Tuning rounds 22–25 logged. All modules M1–M15 complete.
+- **2026-10-13** — Portable build: `portable/build_portable.ps1` → `D:\CellSeg_Portable` (+ `.zip`, 572 MB) with embedded Python, CPU torch, weights; double-click `Start Cell Segmentation.bat`. Tested from extracted zip with clean PATH. App auto-opens browser, picks free port.
